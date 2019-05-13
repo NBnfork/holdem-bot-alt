@@ -1,4 +1,4 @@
-const Tournament = require("poker-holdem-engine");
+const Tournament = require("./poker-holdem-engine/tournament");
 
 const tournamentID = "slackParty";
 
