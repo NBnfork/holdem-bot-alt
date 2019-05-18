@@ -53,23 +53,24 @@ const handleSlash = async (bot, message) => {
                 {
                     id: "000001",
                     name: "Stephanie",
-                    serviceUrl: "https://e20c063e.ngrok.io"
+                    serviceUrl: "http://f2d1db01.ngrok.io"
                 },
                 {
                     id: "000002",
                     name: "Noah",
-                    serviceUrl: "https://e20c063e.ngrok.io"
+                    serviceUrl: "http://f2d1db01.ngrok.io"
                 },
                 {
                     id: "000003",
                     name: "Brian",
-                    serviceUrl: "https://e20c063e.ngrok.io"
+                    serviceUrl: "http://f2d1db01.ngrok.io"
+
                 },
                 {
                     id: "000004",
                     name: "Angry Poker Dude",
-                    serviceUrl: "https://e20c063e.ngrok.io"
-                },
+                    serviceUrl: "http://f2d1db01.ngrok.io"
+                }
             ];
 
             /*      For each dummy player     */

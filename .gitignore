@@ -85,3 +85,4 @@ typings/
 .dynamodb/
 
 db_slackbutton_slash_command/
+/poker-holdem-engine/node_modules/

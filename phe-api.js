@@ -6,22 +6,22 @@ const players = [
     {
         id: "001",
         name: "Stephanie",
-        serviceUrl: "https://e20c063e.ngrok.io"
+        serviceUrl: "http://f2d1db01.ngrok.io"
     },
     {
         id: "002",
         name: "Noah",
-        serviceUrl: "https://e20c063e.ngrok.io"
+        serviceUrl: "http://f2d1db01.ngrok.io"
     },
     {
         id: "003",
         name: "Brian",
-        serviceUrl: "https://e20c063e.ngrok.io"
+        serviceUrl: "http://f2d1db01.ngrok.io"
     },
     {
         id: "004",
         name: "Angry Poker Dude",
-        serviceUrl: "https://e20c063e.ngrok.io"
+        serviceUrl: "http://f2d1db01.ngrok.io"
     },
 ];
 
