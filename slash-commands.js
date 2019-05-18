@@ -108,7 +108,7 @@ const handleSlash = async (bot, message) => {
 
             bot.sendWebhook({
                 blocks: showdown,
-                channel: 'CHBAGGM4Y',
+                channel: message.channel_id,
             }, function (err, res) {
                 if (err) {
                     console.log(err);
