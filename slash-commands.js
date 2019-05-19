@@ -109,7 +109,7 @@ const handleSlash = async (bot, message) => {
 
             bot.sendWebhook({
                 blocks: showdown,
-                channel: 'CHBAGGM4Y',
+                channel: message.channel_id,
             }, function (err, res) {
                 if (err) {
                     console.log(err);
@@ -218,7 +218,24 @@ const handleSlash = async (bot, message) => {
             const deletedPlayers = await deletePlayerAll();
             bot.reply(message, `Debug: All players have been deleted from the database.`);
             break;
-
+        /*
+            tests sending ephemeral message to user
+        */
+        case '/whisper':
+            // #debug ------------------------------------------------
+            console.log('\n... slash-commands/js : Sending ephemeral message---------------\n');
+        //--------------------------------------------------------
+            //need to include user_id and channel_id in ephemeral message payload
+            var scr = {"user": message.user_id};
+            scr.channel = message.channel;
+            //getting player name for custom response
+            var playerToGet = {"slack_id": message.user_id};
+            playerToGet.team_id = message.team_id;
+            //make call to getOnePlayer
+            var player = await getOnePlayer(playerToGet);
+            //send whisper a.k.a ephemeral message using botkit
+            bot.whisper(scr, `Hey ${player.name}. Shh! This is a private message.`);
+            break;
         /*
             starts a tournament
         */
@@ -263,7 +280,7 @@ const handleSlash = async (bot, message) => {
 
                             bot.sendWebhook({
                                 blocks: blockmsg,
-                                channel: message.channel_id,
+                                channel: message.channel,
                             }, function (err, res) {
                                 if (err) {
                                     console.log(err);

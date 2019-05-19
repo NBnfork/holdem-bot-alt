@@ -8,13 +8,11 @@ const {
 
 const joinPokerEventListener = require('./bot-skills/poker-commands.js');
 
-
-
 //----------------------------------------
 /*      Authentication checkpoint       */
-//|| !process.env.PORT
-if (!process.env.CLIENT_ID || !process.env.CLIENT_SECRET  || !process.env.VERIFICATION_TOKEN) {
-    console.log('Error: Specify CLIENT_ID, CLIENT_SECRET, VERIFICATION_TOKEN and PORT in environment');
+//          // online deployment doesn't need to check for PORT env var
+if (!process.env.CLIENT_ID || !process.env.CLIENT_SECRET || !process.env.VERIFICATION_TOKEN ) {
+    console.log('Error: Specify CLIENT_ID, CLIENT_SECRET, VERIFICATION_TOKEN in environment');
     process.exit(1);
 } else {
     console.log('Good job, you have the variables!')
@@ -28,7 +26,7 @@ const mongodbStorage = require('./phe-storage-mongoose/index.js')({
 /*      Controller, the Slackbot        */
 const controller = Botkit.slackbot({
     storage: mongodbStorage,
-    debug: false,
+    debug: true,
     clientSigningSecret: process.env.CLIENT_SIGNING_SECRET,
 });
 //----------------------------------------
@@ -36,19 +34,11 @@ const controller = Botkit.slackbot({
 controller.configureSlackApp({
     clientId: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
-    // clientSigningSecret: process.env.CLIENT_SIGNING_SECRET,
     scopes: ['commands', 'bot', 'incoming-webhook'],
 });
+
 //----------------------------------------
-/*      Spawns "bot" from Controller    */
-const bot = controller.spawn({
-    token: process.env.BOT_TOKEN,
-    incoming_webhook: {
-        url: process.env.SLACK_WEBHOOK
-    }
-}).startRTM();
-//----------------------------------------
-/*          Webhook setup               */
+/*          Bot Server setup               */
 controller.setupWebserver(process.env.PORT, function (err, webserver) {
     controller.createWebhookEndpoints(controller.webserver);
     controller.createOauthEndpoints(controller.webserver,
@@ -61,9 +51,32 @@ controller.setupWebserver(process.env.PORT, function (err, webserver) {
         });
 });
 
+//----------------------------------------
+/*      Spawns "bot" from Controller    */
+const bot_RTM = controller.spawn({
+    token: process.env.BOT_TOKEN,
+    incoming_webhook: {
+        url: process.env.SLACK_WEBHOOK
+    }
+})
+
+
+/* #Brian's notes -------
+
+    * "incoming webhook" is a url to post JSON from app to Slack. 
+    "Outgoing webhook" is obsolete (legacy).
+    
+    * Use bot.sendWebhook(message, callback())
+    Pass sendWebhook an object that contains at least a text field. 
+    This object may also contain other fields defined by Slack which can alter the appearance of your message.
+
+------------------------*/
+
 
 //---- Test zone ---------------------------------------------------------------------//
-controller.hears('hi', 'direct_message', function (bot, message) {
+
+
+controller.hears('hi', 'direct_message', (bot, message) => {
     bot.reply(message, 'Hello.');
 });
 

@@ -18,7 +18,8 @@
     "env-cmd": "^8.0.2",
     "mongoose": "^5.5.3",
     "nodemod": "^1.5.19",
-    "random-js": "^2.0.0"
+    "random-js": "^2.0.0",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",
