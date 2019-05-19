@@ -228,11 +228,13 @@ const handleSlash = async (bot, message) => {
             //need to include user_id and channel_id in ephemeral message payload
             var scr = {"user": message.user_id};
             scr.channel = message.channel;
+
             //getting player name for custom response
             var playerToGet = {"slack_id": message.user_id};
             playerToGet.team_id = message.team_id;
             //make call to getOnePlayer
             var player = await getOnePlayer(playerToGet);
+
             //send whisper a.k.a ephemeral message using botkit
             bot.whisper(scr, `Hey ${player.name}. Shh! This is a private message.`);
             break;
