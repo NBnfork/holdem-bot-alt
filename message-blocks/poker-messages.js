@@ -48,6 +48,72 @@ const showdown_mockup = [
     }
 ];
 
+const playershand_mockup = [
+
+    {
+        "type": "section",
+        "text": {
+            "type": "mrkdwn",
+            "text": "**In the Hole**\n"
+        }
+    },
+    {
+        "type": "image",
+        "image_url": "https://i.imgur.com/rqxxJsZ.jpg",
+        "alt_text": "computer thumbnail"
+    },
+
+];
+/*------------------------------------------------------------------------------------
+|   Fold, Check/Call, Raise, All-In?
+|       Attachment in array format.
+|
+|                                                                                   */
+const takeTurnButtons = [
+    {
+        "type": "actions",
+        "elements": [
+            {
+                "type": "button",
+                "text": {
+                    "type": "plain_text",
+                    "text": "Fold",
+                    "emoji": true
+                },
+                "value": "fold"
+            },
+            {
+                "type": "button",
+                "text": {
+                    "type": "plain_text",
+                    "text": "Call/Check",
+                    "emoji": true
+                },
+                "value": "call"
+            },
+            {
+                "type": "button",
+                "text": {
+                    "type": "plain_text",
+                    "text": "Raise",
+                    "emoji": true
+                },
+                "value": "raise"
+            },
+            {
+                "type": "button",
+                "text": {
+                    "type": "plain_text",
+                    "text": "All-in!",
+                    "emoji": true
+                },
+                "value": "all-in"
+            }
+        ]
+    }
+]
 module.exports = {
-    showdown_mockup
+    showdown_mockup,
+    playershand_mockup,
+    takeTurnButtons
 }

@@ -137,7 +137,7 @@ const getLobbyBuyinFromUser = (convo, user) => {
 
                 if (user.bank < convo.vars.lobby_buyin) {
                     console.log("\npoker-commands.js->getLobbyBuyinFromUser(): Player overdraft.\n");
-                    convo.say('It appears that your bank account do not have enough chips. You have $' + user.bank + ' but this lobby has a $' + convo.vars.lobby_buyin + '.');
+                    convo.say('It appears that your bank account do not have enough chips. You have $' + user.bank + ' but this lobby has a $' + convo.vars.lobby_buyin + ' buy-in .');
                     return false;
                 }
                 convo.next();
@@ -335,4 +335,30 @@ module.exports = async (controller) => {
     });
 
 
+
 }
+const takeTurn = async (player, message) => { //TODO change parameters for deployment
+    console.log('\n\n---------------- poker-api.js -> "takeTurn()" ----------------\n');
+    try {
+        await bot.reply(message, `It's ${player.name}'s turn.`);
+    }catch (e) {
+        console.log(e);
+    }
+    //ephemeral messages must include playerid and channel
+    //send cards
+    var mes = {"user": player.slack_id, "channel": message.channel, "blocks": message_blocks.playershand_mockup};
+    try {
+        await bot.sendEphemeral(mes);
+    } catch (e) {
+        console.log(e);
+    }
+    //sending ephemeral buttons
+    mes.blocks = message_blocks.takeTurnButtons;
+    try {
+        await bot.reply(message, mes);
+
+    } catch (e) {
+        console.log(e);
+    }
+
+};

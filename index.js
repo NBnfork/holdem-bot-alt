@@ -7,11 +7,12 @@ const {
 } = require('./slash-commands')
 
 const joinPokerEventListener = require('./bot-skills/poker-commands.js');
+const message_blocks = require('./message-blocks/poker-messages');
 
 //----------------------------------------
 /*      Authentication checkpoint       */
 //          // online deployment doesn't need to check for PORT env var
-if (!process.env.CLIENT_ID || !process.env.CLIENT_SECRET || !process.env.VERIFICATION_TOKEN ) {
+if (!process.env.CLIENT_ID || !process.env.CLIENT_SECRET || !process.env.VERIFICATION_TOKEN  ) {
     console.log('Error: Specify CLIENT_ID, CLIENT_SECRET, VERIFICATION_TOKEN in environment');
     process.exit(1);
 } else {
@@ -80,8 +81,29 @@ controller.hears('hi', 'direct_message', (bot, message) => {
     bot.reply(message, 'Hello.');
 });
 
-controller.hears('I am hungry', 'direct_message', (bot, message) => {
-    bot.reply(message, 'Haha no food for you!');
+controller.hears('test buttons', 'direct_message', (bot, message) => {
+ console.log('\n\n---------------- poker-api.js -> "takeTurn()" ----------------\n');
+    try {
+        //await bot.reply(message, `It's ${player.name}'s turn.`);
+    }catch (e) {
+        console.log(e);
+    }
+    //ephemeral messages must include playerid and channel
+    //send cards
+    var mes = {"user": message.user_id, "channel": message.channel, "blocks": message_blocks.playershand_mockup};
+    try {
+        bot.reply(message, mes);
+    } catch (e) {
+        console.log(e);
+    }
+    //sending ephemeral buttons
+    mes.blocks = message_blocks.takeTurnButtons;
+    try {
+        bot.reply(message, mes);
+
+    } catch (e) {
+        console.log(e);
+    }
 })
 //------------------------------------------------------------------------------------//
 
@@ -89,13 +111,47 @@ controller.hears('I am hungry', 'direct_message', (bot, message) => {
 /*   Bot listens to keyword in Slack    */
 joinPokerEventListener(controller);
 
-
 //----------------------------------------
 /*        Slash Command handling        */
 controller.on('slash_command', async (bot, message) => {
     bot.replyAcknowledge();
     //TO DO: Put json objects to separate file for tidiness
     handleSlash(bot, message);
-})
+});
 
 //----------------------------------------
+const takeTurn = async (player, message) => { //TODO change parameters for deployment
+    console.log('\n\n---------------- poker-api.js -> "takeTurn()" ----------------\n');
+    try {
+        await bot.reply(message, `It's ${player.name}'s turn.`);
+    }catch (e) {
+        console.log(e);
+    }
+    //ephemeral messages must include playerid and channel
+    //send cards
+    var mes = {"user": message.user_id, "channel": message.channel, "blocks": message_blocks.playershand_mockup};
+    try {
+        await bot.sendEphemeral(mes);
+    } catch (e) {
+        console.log(e);
+    }
+    //sending ephemeral buttons
+    mes.blocks = message_blocks.takeTurnButtons;
+    try {
+        await bot.reply(message, mes);
+
+    } catch (e) {
+        console.log(e);
+    }
+
+};
+//collect turnButton info
+controller.on('block_actions', function(bot, message) {
+    bot.replyAcknowledge();
+
+    console.log(`ia_message_callback= ${message}`);
+
+    bot.replyInteractive(message, 'Button test= Success!');
+});
+
+

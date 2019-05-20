@@ -18,9 +18,14 @@ const {
     deletePlayerAll,
 } = require('./player/player-router');
 
+//for testing takeTurn only
+const tt = require('./index');
+
+
 
 
 const message_blocks = require('./message-blocks/poker-messages');
+
 // ------- Assign selected message blocks to local const ----------- //
 const showdown = message_blocks.showdown_mockup;
 //-------------------------------------------------------------------//
@@ -235,8 +240,8 @@ const handleSlash = async (bot, message) => {
             //make call to getOnePlayer
             var player = await getOnePlayer(playerToGet);
 
-            //send whisper a.k.a ephemeral message using botkit
-            bot.whisper(scr, `Hey ${player.name}. Shh! This is a private message.`);
+            await tt.takeTurn(player, message);
+
             break;
         /*
             starts a tournament

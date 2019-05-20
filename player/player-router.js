@@ -158,7 +158,7 @@ const checkOut = async (data) => {
 const getOnePlayer = async (data) => {
     try {
         const thisPlayer = await player.findOne({ slack_id: data.slack_id, team_id: data.team_id });
-        console.log(`Player found! PlayerData= ${JSON.stringify(thisPlayer)}`);
+        //console.log(`Player found! PlayerData= ${JSON.stringify(thisPlayer)}`);
         return thisPlayer;
     } catch (e) {
         console.log(e);
